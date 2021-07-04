@@ -4,7 +4,7 @@
 
 <img alt="Random Attack on Titan Quotes Generator" src="https://i.imgur.com/sO9lXwF.png" />
 
-> Random generate quotes from Attack on Titan. The app was developed using React and Animechan API.
+> Generate random quotes from Attack on Titan. The app was developed using React and Animechan API.
 
 ## Install
 
