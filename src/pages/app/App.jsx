@@ -8,44 +8,55 @@ import sasageyo from "../../sounds/sasageyo.mp3";
 const audio = new Audio(sasageyo);
 
 export function App() {
-	const [quoteState, setQuoteState] = useState({
-		quote: "loading quote...",
-		character: "loading character...",
-	});
-	const isMounted = useRef(true);
+  const [quoteState, setQuoteState] = useState({
+    quote: "loading quote...",
+    character: "loading character...",
+  });
+  const [muted, setMuted] = useState(false);
+  const isMounted = useRef(true);
 
-	useEffect(() => {
-		onUpdate();
+  const onUpdate = async () => {
+    const randomQuote = await getQuote();
 
-		return () => {
-			isMounted.current = false;
-		};
-	}, []);
+    if (isMounted.current) {
+      !muted && audio.play();
+      setQuoteState(randomQuote);
+    }
+  };
 
-	const onUpdate = async () => {
-		const randomQuote = await getQuote();
-		if (isMounted.current) {
-			audio.play();
-			setQuoteState(randomQuote);
-		}
-	};
+  useEffect(() => {
+    onUpdate();
 
-	return (
-		<Content>
-			<Quotes {...quoteState} onUpdate={onUpdate} />
-			<Eren src={erenImg} alt="Eren with his sword" />
-		</Content>
-	);
+    return () => {
+      isMounted.current = false;
+    };
+  }, []);
+
+  const muteToggle = () => {
+    setMuted(!muted);
+  };
+
+  return (
+    <Content>
+      <Quotes
+        {...quoteState}
+        onUpdate={onUpdate}
+        muted={muted}
+        muteToggle={muteToggle}
+      />
+      <Eren src={erenImg} alt="Eren with his sword" />
+    </Content>
+  );
 }
 
 const Content = styled.div`
-	height: 100vh;
-	padding: 0 50px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+  height: 100vh;
+  padding: 0 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Eren = styled.img`
-	max-height: 100%;
+  max-height: 100%;
 `;
