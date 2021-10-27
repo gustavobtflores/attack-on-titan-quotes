@@ -6,6 +6,7 @@ import { getQuote } from "../../services";
 import sasageyo from "../../sounds/sasageyo.mp3";
 
 const audio = new Audio(sasageyo);
+audio.volume = 0.2;
 
 export function App() {
   const [quoteState, setQuoteState] = useState({
